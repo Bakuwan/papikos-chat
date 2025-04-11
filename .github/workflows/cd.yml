@@ -28,19 +28,19 @@ jobs:
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Build docker image
-        run:  docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }} .
+        run:  docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/papikos-chat .
       - name: Publish image to Dockerhub
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/papikos-chat:latest
 
   deploy:
     needs:  build
     runs-on: [aws-ec2]
     steps:
       - name: Pull image from Dockerhub
-        run:  sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+        run:  sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/papikos-chat:latest
       - name: Delete old container
-        run:  docker rm -f ${{ secrets.DOCKER_CONTAINER_NAME }}
+        run:  docker rm -f papikos-chat-container
       - name: Run docker container
-        run: docker run -d -p 80:8080 --name ${{ secrets.DOCKER_CONTAINER_NAME }} --restart unless-stopped ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+        run: docker run -d -p 80:8080 --name papikos-chat-container --restart unless-stopped ${{ secrets.DOCKERHUB_USERNAME }}/papikos-chat:latest
