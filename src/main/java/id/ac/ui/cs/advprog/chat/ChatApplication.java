@@ -11,7 +11,7 @@ public class ChatApplication {
 
     @RequestMapping("/")
     public String home() {
-        return "Hello Docker World";
+        return "Hello World";
     }
 
     public static void main(String[] args) {
