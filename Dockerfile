@@ -2,8 +2,8 @@ FROM openjdk:21-jdk-slim
 
 WORKDIR /app
 
-COPY build/libs/papikos-chat.jar papikos.jar
+COPY build/libs/chat-0.0.1-SNAPSHOT.jar chat-0.0.1-SNAPSHOT.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "papikos-chat.jar"]
+ENTRYPOINT ["java", "-jar", "chat-0.0.1-SNAPSHOT.jar"]
